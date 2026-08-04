@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0A0A0B">
+<title>Promo NOICE x YUP — Khusus Pengguna Baru</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#F7D91B;
+    --accent-deep:#E4BE00;
+    --accent-soft:rgba(247,217,27,.14);
+    --accent-line:rgba(247,217,27,.28);
+
+    --page:#08080A;
+    --modal:#0E0E11;
+    --surface:#161619;
+    --surface-2:#1D1D21;
+    --line:rgba(255,255,255,.10);
+
+    --text:#FFFFFF;
+    --muted:#A3A3AC;
+    --dim:#6E6E78;
+
+    --radius-modal:20px;
+    --radius-card:18px;
+    --shell:1040px;
+  }
+
+  *,*::before,*::after{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    min-height:100vh;
+    font-family:'Plus Jakarta Sans','Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+    color:var(--text);
+    background:
+      radial-gradient(900px 600px at 50% -10%, rgba(247,217,27,.10), transparent 60%),
+      var(--page);
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+  button{font:inherit;color:inherit;}
+
+  /* ---------- shell ---------- */
+  .overlay{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding:0;
+  }
+  @media (min-width:900px){
+    .overlay{padding:48px 24px;align-items:flex-start;}
+  }
+
+  .modal{
+    position:relative;
+    width:100%;
+    max-width:var(--shell);
+    background:var(--modal);
+    overflow:hidden;
+    box-shadow:0 40px 120px rgba(0,0,0,.6);
+  }
+  @media (min-width:900px){
+    .modal{border-radius:var(--radius-modal);border:1px solid var(--line);}
+  }
+
+  .modal__close{
+    position:absolute;
+    top:14px;right:14px;
+    z-index:5;
+    width:40px;height:40px;
+    display:grid;place-items:center;
+    border:0;border-radius:50%;
+    background:rgba(0,0,0,.45);
+    backdrop-filter:blur(6px);
+    cursor:pointer;
+    transition:background .18s ease,transform .18s ease;
+  }
+  .modal__close:hover{background:rgba(255,255,255,.14);transform:scale(1.05);}
+  .modal__close svg{width:18px;height:18px;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    padding:56px 20px 0;
+    text-align:center;
+    background:
+      radial-gradient(120% 90% at 50% 0%, rgba(247,217,27,.20), transparent 62%),
+      linear-gradient(180deg,#1A1608 0%,#121118 52%,var(--modal) 100%);
+    overflow:hidden;
+  }
+  @media (min-width:900px){ .hero{padding:60px 40px 0;} }
+
+  .hero__logos{
+    display:flex;align-items:center;justify-content:center;gap:18px;
+    margin-bottom:26px;
+  }
+  .hero__divider{
+    width:1px;height:26px;
+    background:rgba(255,255,255,.28);
+  }
+  /* official asset when present, redrawn SVG until then */
+  .brand{display:flex;align-items:center;gap:8px;}
+  .brand__fallback{display:none;}
+  .brand.no-img .brand__img{display:none;}
+  .brand.no-img .brand__fallback{display:flex;align-items:center;gap:9px;}
+  /* noice-logo.png is 2500x1100 but only the middle ~50% is opaque (25.1% transparent
+     padding top/bottom). Sized so the VISIBLE mark lands at ~24px to match the YUP
+     squircle. The negative margin is VERTICAL ONLY — a horizontal one shrinks the
+     flex item's width and (with max-width:100% + object-fit:fill) squashes the logo. */
+  .brand--noice .brand__img{
+    height:48px;
+    width:auto;
+    max-width:none;
+    flex:none;
+    margin:-12px 0;
+  }
+  .brand--yup .brand__img--icon{height:24px;width:24px;border-radius:6px;}
+
+  .logo-noice svg{width:30px;height:26px;flex:none;}
+  .logo-noice .wordmark{
+    font-weight:800;font-size:22px;letter-spacing:.02em;line-height:1;
+  }
+  .logo-yup svg{width:24px;height:24px;flex:none;border-radius:6px;}
+  .brand--yup .wordmark{
+    font-weight:700;font-size:20px;letter-spacing:-.01em;line-height:1;
+  }
+
+  .hero__eyebrow{
+    margin:0;
+    font-size:clamp(22px,6.2vw,34px);
+    font-weight:800;
+    letter-spacing:.01em;
+    text-shadow:0 3px 0 rgba(0,0,0,.45), 0 0 34px rgba(247,217,27,.28);
+  }
+  @media (min-width:900px){ .hero__eyebrow{font-size:38px;} }
+
+  /* fanned content cards — real NOICE catalog artwork */
+  .hero__cards{
+    display:flex;justify-content:center;align-items:center;
+    gap:clamp(8px,2.4vw,18px);
+    margin-top:clamp(26px,7vw,44px);
+    /* rotating a 170px card by 8deg grows its box ~11px per side; with translateY(12px)
+       the outer cards reach ~23px below their upright bottom. .hero is overflow:hidden,
+       so reserve at least that much or the card bottoms get clipped. */
+    padding-bottom:clamp(24px,5.5vw,34px);
+  }
+  .ccard{
+    position:relative;
+    flex:0 0 auto;
+    min-width:0;
+    width:clamp(96px,26vw,170px);
+    aspect-ratio:3/4;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,.16);
+    box-shadow:0 18px 44px rgba(0,0,0,.6);
+    overflow:hidden;
+    background:#1A1A1E;
+    transition:transform .3s ease;
+  }
+  .ccard img{width:100%;height:100%;object-fit:cover;object-position:center;}
+  .ccard:nth-child(1){transform:rotate(-8deg) translateY(12px);}
+  .ccard:nth-child(2){transform:translateY(-8px);z-index:2;}
+  .ccard:nth-child(3){transform:rotate(8deg) translateY(12px);}
+  @media (min-width:900px){
+    .ccard:hover{transform:rotate(0deg) translateY(-8px);z-index:3;}
+  }
+
+  /* ---------- body ---------- */
+  .body{
+    padding:34px 20px 40px;
+    display:grid;
+    gap:28px;
+  }
+  @media (min-width:900px){
+    .body{
+      padding:44px 40px 48px;
+      grid-template-columns:1.02fr .98fr;
+      gap:44px;
+      align-items:start;
+    }
+    /* keep the offer in view while the longer steps column scrolls */
+    .body > .col:first-child{
+      position:sticky;
+      top:32px;
+    }
+  }
+  .col{display:grid;gap:24px;align-content:start;}
+
+  .lead h2{
+    margin:0 0 12px;
+    font-size:clamp(24px,6.4vw,32px);
+    font-weight:800;line-height:1.24;letter-spacing:-.01em;
+  }
+  .lead h2 em{font-style:normal;color:var(--accent);}
+  .lead p{
+    margin:0;
+    font-size:15px;line-height:1.65;color:var(--muted);
+  }
+
+  /* ---------- deal card ---------- */
+  .deal{
+    position:relative;
+    border-radius:var(--radius-card);
+    padding:22px;
+    background:linear-gradient(158deg,#221C05 0%,#1A1A1E 58%,#141418 100%);
+    border:1px solid var(--accent-line);
+    box-shadow:0 0 0 1px rgba(0,0,0,.4), 0 22px 50px rgba(0,0,0,.45);
+    overflow:hidden;
+  }
+  .deal::before{
+    content:"";position:absolute;
+    width:220px;height:220px;top:-120px;right:-70px;
+    background:radial-gradient(circle,rgba(247,217,27,.22),transparent 70%);
+    pointer-events:none;
+  }
+  .deal > *{position:relative;}
+  .deal__head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
+  .deal__name{margin:0;font-size:20px;font-weight:800;letter-spacing:-.01em;}
+  .deal__dur{margin:4px 0 0;font-size:13px;color:var(--muted);font-weight:500;}
+  .deal__badge{
+    flex:none;
+    font-size:11px;font-weight:800;letter-spacing:.04em;
+    padding:6px 10px;border-radius:999px;
+    background:var(--accent);color:#111;
+  }
+  .deal__rule{
+    margin:18px 0;
+    border:0;border-top:1px dashed rgba(255,255,255,.18);
+  }
+  .deal__price{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+  .deal__now{font-size:30px;font-weight:800;letter-spacing:-.02em;}
+  .deal__was{font-size:15px;font-weight:600;color:var(--dim);text-decoration:line-through;}
+
+  .code{
+    margin-top:18px;
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:12px 12px 12px 16px;
+    border-radius:12px;
+    background:var(--accent-soft);
+    border:1px dashed var(--accent-line);
+  }
+  .code__value{
+    font-size:clamp(14px,3.6vw,17px);
+    font-weight:800;letter-spacing:.06em;color:var(--accent);
+    word-break:break-all;
+  }
+  .code__btn{
+    flex:none;
+    display:inline-flex;align-items:center;gap:7px;
+    padding:9px 14px;border-radius:9px;
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.18);
+    font-size:13px;font-weight:600;
+    cursor:pointer;
+    transition:background .18s ease,border-color .18s ease,color .18s ease;
+  }
+  .code__btn:hover{background:rgba(255,255,255,.14);}
+  .code__btn svg{width:14px;height:14px;}
+  .code__btn.is-copied{
+    background:var(--accent);border-color:var(--accent);color:#111;
+  }
+
+  /* ---------- tabs ---------- */
+  .tabs{display:flex;gap:10px;flex-wrap:wrap;}
+  .tab{
+    padding:9px 18px;border-radius:999px;
+    background:transparent;
+    border:1px solid rgba(255,255,255,.22);
+    font-size:13px;font-weight:600;color:var(--muted);
+    cursor:pointer;
+    transition:all .18s ease;
+  }
+  .tab:hover{color:var(--text);border-color:rgba(255,255,255,.4);}
+  .tab[aria-selected="true"]{
+    background:#fff;border-color:#fff;color:#111;font-weight:700;
+  }
+
+  .panel[hidden]{display:none;}
+  .panel{margin-top:20px;}
+  .panel h3{
+    margin:0 0 16px;
+    font-size:17px;font-weight:800;
+  }
+
+  .steps{list-style:none;margin:0;padding:0;display:grid;gap:16px;counter-reset:s;}
+  /* NOTE: the marker is absolutely positioned rather than a grid column, so that
+     inline children (<b>, <code>, nested <ul>) stay in normal flow. Making the <li>
+     a grid container turns every one of them into its own grid item, which drops
+     them into the number column and overlaps the following line. */
+  .steps > li{
+    position:relative;
+    padding-left:38px;
+    min-height:26px;
+    font-size:14px;line-height:1.6;color:var(--muted);
+  }
+  .steps > li::before{
+    counter-increment:s;content:counter(s);
+    position:absolute;left:0;top:-1px;
+    width:26px;height:26px;border-radius:50%;
+    display:grid;place-items:center;
+    font-size:12px;font-weight:700;color:var(--text);
+    border:1px solid rgba(255,255,255,.22);
+  }
+  .steps b{color:var(--text);font-weight:700;white-space:nowrap;}
+  .steps code{
+    font-family:inherit;font-weight:800;color:var(--accent);letter-spacing:.03em;
+  }
+  .steps ul{margin:8px 0 0;padding-left:18px;}
+  .steps ul li{font-size:14px;line-height:1.6;color:var(--muted);margin-top:6px;}
+  .steps ul li::marker{color:var(--accent);}
+
+  .terms{margin:0;padding-left:20px;display:grid;gap:11px;}
+  .terms li{font-size:14px;line-height:1.6;color:var(--muted);}
+  .terms li::marker{color:var(--accent);}
+  .terms b{color:var(--text);font-weight:700;}
+
+  /* ---------- cta ---------- */
+  .cta{
+    display:flex;align-items:center;justify-content:center;gap:9px;
+    width:100%;
+    padding:16px 22px;
+    border:0;border-radius:999px;
+    background:linear-gradient(93deg,var(--accent) 0%,var(--accent-deep) 100%);
+    color:#101010;
+    font-size:15px;font-weight:800;letter-spacing:.01em;
+    text-decoration:none;
+    cursor:pointer;
+    box-shadow:0 12px 30px rgba(247,217,27,.24);
+    transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;
+  }
+  .cta:hover{transform:translateY(-2px);box-shadow:0 18px 40px rgba(247,217,27,.34);filter:brightness(1.05);}
+  .cta:active{transform:translateY(0);}
+  .cta svg{width:16px;height:16px;}
+
+  .footnote{
+    margin:14px 0 0;text-align:center;
+    font-size:12px;line-height:1.6;color:var(--dim);
+  }
+
+  @media (max-width:359px){
+    .cta{font-size:14px;padding:15px 16px;gap:7px;}
+  }
+
+  /* mobile: keep CTA reachable at the end of the flow */
+  @media (max-width:899px){
+    .cta-wrap{
+      position:sticky;bottom:0;
+      margin:4px -20px -40px;
+      padding:16px 20px calc(16px + env(safe-area-inset-bottom));
+      background:linear-gradient(180deg,rgba(14,14,17,0) 0%,var(--modal) 34%);
+    }
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;animation:none!important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="overlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="promoTitle">
+
+    <button class="modal__close" type="button" aria-label="Tutup">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round">
+        <path d="M6 6l12 12M18 6L6 18"/>
+      </svg>
+    </button>
+
+    <!-- ================= HERO ================= -->
+    <header class="hero">
+      <div class="hero__logos">
+        <!-- Drop the official file at assets/noice-logo.png and it replaces the fallback automatically -->
+        <span class="brand brand--noice">
+          <img class="brand__img" src="assets/noice-logo.png" alt="NOICE"
+               onerror="this.closest('.brand').classList.add('no-img')">
+          <span class="brand__fallback logo-noice" aria-label="NOICE">
+            <svg viewBox="0 0 34 30" aria-hidden="true">
+              <g transform="rotate(-18 17 15)" fill="none" stroke="#F7D91B" stroke-linecap="butt">
+                <path d="M3 1.6 A 13.4 13.4 0 0 1 3 28.4" stroke-width="6.6"/>
+                <path d="M3 8.2 A 6.8 6.8 0 0 1 3 21.8" stroke-width="4.4"/>
+              </g>
+            </svg>
+            <span class="wordmark">NOICE</span>
+          </span>
+        </span>
+
+        <span class="hero__divider"></span>
+
+        <!-- Drop the official file at assets/yup-logo.png and it replaces the fallback automatically -->
+        <span class="brand brand--yup">
+          <img class="brand__img brand__img--icon" src="assets/yup-logo.png" alt=""
+               onerror="this.closest('.brand').classList.add('no-img')">
+          <span class="brand__fallback logo-yup">
+            <svg viewBox="0 0 48 48" aria-hidden="true">
+              <defs>
+                <linearGradient id="yupG" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0" stop-color="#E5304A"/>
+                  <stop offset="55%" stop-color="#EE4550"/>
+                  <stop offset="100%" stop-color="#F4818A"/>
+                </linearGradient>
+              </defs>
+              <rect width="48" height="48" rx="11" fill="url(#yupG)"/>
+              <g stroke="#fff" stroke-width="8.4" stroke-linecap="butt" fill="none">
+                <path d="M31.5 11.5 L16.5 37"/>
+                <path d="M13.2 11.5 L22.6 27.5"/>
+              </g>
+            </svg>
+          </span>
+          <span class="wordmark">Yup</span>
+        </span>
+      </div>
+
+      <h1 class="hero__eyebrow">KHUSUS PENGGUNA BARU</h1>
+
+      <div class="hero__cards">
+        <div class="ccard">
+          <img src="https://images.noiceid.cc/catalog/content-1660037096035"
+               alt="Podcast eksklusif di NOICE" decoding="async">
+        </div>
+        <div class="ccard">
+          <img src="https://images.noiceid.cc/catalog/compressed/content-1657618648731"
+               alt="Audio series di NOICE" decoding="async">
+        </div>
+        <div class="ccard">
+          <img src="https://images.noiceid.cc/catalog/content-1614529848190.jpg"
+               alt="Radio di NOICE" decoding="async">
+        </div>
+      </div>
+    </header>
+
+    <!-- ================= BODY ================= -->
+    <div class="body">
+
+      <!-- LEFT COLUMN -->
+      <div class="col">
+        <section class="lead">
+          <h2 id="promoTitle">Yuk, dengerin hemat dengan <em>promo YUP!</em></h2>
+          <p>Nikmati NOICE Premium hanya Rp1.000 untuk 30 hari. Dengerin ribuan podcast,
+             audiobook, dan audio series eksklusif tanpa iklan. Sikat promonya sekarang!</p>
+        </section>
+
+        <section class="deal" aria-label="Paket NOICE Premium">
+          <div class="deal__head">
+            <div>
+              <h3 class="deal__name">NOICE Premium</h3>
+              <p class="deal__dur">30 Hari</p>
+            </div>
+            <span class="deal__badge">HEMAT 97%</span>
+          </div>
+
+          <hr class="deal__rule">
+
+          <div class="deal__price">
+            <span class="deal__now">Rp1.000</span>
+            <span class="deal__was">Rp29.000</span>
+          </div>
+
+          <div class="code">
+            <span class="code__value" id="promoCode">NOICEPREMIUMYUP</span>
+            <button class="code__btn" type="button" id="copyBtn" data-code="NOICEPREMIUMYUP">
+              <span class="code__btn-label">Copy</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="9" y="9" width="12" height="12" rx="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+            </button>
+          </div>
+        </section>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="col">
+        <section>
+          <div class="tabs" role="tablist" aria-label="Informasi promo">
+            <button class="tab" type="button" role="tab" id="tab-how"
+                    aria-controls="panel-how" aria-selected="true">How To Use</button>
+            <button class="tab" type="button" role="tab" id="tab-terms"
+                    aria-controls="panel-terms" aria-selected="false">Syarat &amp; Ketentuan</button>
+          </div>
+
+          <div class="panel" id="panel-how" role="tabpanel" aria-labelledby="tab-how">
+            <ol class="steps">
+              <li>Unduh aplikasi YUP melalui Google Play Store atau App Store.</li>
+              <li>Lakukan pendaftaran dan pastikan kamu memasukkan kode referral berikut di kolom “Kode Promo”:
+                <ul>
+                  <li><code>NOICEPREMIUMYUP</code> untuk paket NOICE Premium.</li>
+                </ul>
+              </li>
+              <li>Selesaikan proses registrasi hingga akun YUP kamu disetujui (approved).</li>
+              <li>Setelah aktif, dapatkan voucher potongan dengan total nilai hingga <b>Rp28.000</b> (sesuai paket pilihanmu).</li>
+              <li>Buka aplikasi NOICE, pilih paket NOICE Premium, lalu pilih metode pembayaran QR.</li>
+              <li>Scan QRIS pakai Aplikasi YUP.</li>
+              <li>Setelah itu, gunakan voucher potongan harga senilai sampai dengan <b>Rp28.000</b> dan bayar cuma <b>Rp1.000</b>.</li>
+            </ol>
+          </div>
+
+          <div class="panel" id="panel-terms" role="tabpanel" aria-labelledby="tab-terms" hidden>
+            <h3>Syarat &amp; Ketentuan</h3>
+            <ul class="terms">
+              <li>Melakukan registrasi akun YUP.</li>
+              <li>Masukan kode referral <b>NOICEPREMIUMYUP</b>.</li>
+              <li>Selesaikan registrasi sampai selesai.</li>
+              <li>Nikmati voucher potongan sampai <b>Rp28.000</b>.</li>
+              <li>Voucher total hingga <b>Rp28.000</b>.</li>
+              <li>Promo berlaku khusus untuk pengguna baru YUP.</li>
+              <li>Promo hanya berlaku satu kali per akun NOICE dan akun YUP.</li>
+            </ul>
+          </div>
+        </section>
+
+        <div class="cta-wrap">
+          <a class="cta" href="#" role="button">
+            Daftar &amp; Klaim Promo di YUP
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h13M13 6l6 6-6 6"/>
+            </svg>
+          </a>
+          <p class="footnote">Dengan melanjutkan, kamu menyetujui syarat &amp; ketentuan promo NOICE x YUP.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  /* ---- tabs ---- */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+
+  function select(tab) {
+    tabs.forEach(function (t) {
+      var on = t === tab;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+  }
+
+  tabs.forEach(function (tab, i) {
+    tab.addEventListener('click', function () { select(tab); });
+    tab.addEventListener('keydown', function (e) {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      e.preventDefault();
+      var next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+      next.focus();
+      select(next);
+    });
+  });
+
+  /* ---- copy code ---- */
+  var btn = document.getElementById('copyBtn');
+  var label = btn.querySelector('.code__btn-label');
+  var timer;
+
+  function flash() {
+    btn.classList.add('is-copied');
+    label.textContent = 'Tersalin';
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      btn.classList.remove('is-copied');
+      label.textContent = 'Copy';
+    }, 1800);
+  }
+
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); flash(); } catch (err) {}
+    document.body.removeChild(ta);
+  }
+
+  btn.addEventListener('click', function () {
+    var code = btn.dataset.code;
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(code).then(flash, function () { fallbackCopy(code); });
+    } else {
+      fallbackCopy(code);
+    }
+  });
+})();
+</script>
+</body>
+</html>

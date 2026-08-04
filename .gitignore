@@ -1,0 +1,16 @@
+# Local Claude Code settings (machine-specific)
+.claude/settings.local.json
+
+# Vercel
+.vercel/
+
+# OS cruft
+Thumbs.db
+ehthumbs.db
+.DS_Store
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
