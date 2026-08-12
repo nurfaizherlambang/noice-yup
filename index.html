@@ -5,6 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0A0A0B">
 <title>Promo NOICE x YUP — Khusus Pengguna Baru</title>
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1020300154103051');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1020300154103051&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -495,7 +513,7 @@
         </section>
 
         <div class="cta-wrap">
-          <a class="cta" href="https://ops.yupindonesia.com/cdws/YUPNOICE" role="button">
+          <a class="cta" id="ctaBtn" href="https://ops.yupindonesia.com/cdws/YUPNOICE" role="button">
             Daftar &amp; Klaim Promo di YUP
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -568,6 +586,53 @@
     } else {
       fallbackCopy(code);
     }
+  });
+
+  /* ---- Meta Pixel + Conversions API (deduped via shared event_id) ---- */
+  function genEventId() {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
+  function getCookie(name) {
+    var m = document.cookie.match('(?:^|; )' + name + '=([^;]*)');
+    return m ? decodeURIComponent(m[1]) : undefined;
+  }
+
+  /* Same event_id is passed to fbq (browser) and /api/capi (server) so Meta
+     dedupes the pair into a single event instead of double-counting it. */
+  function metaTrack(eventName, customData) {
+    var eventId = genEventId();
+
+    if (window.fbq) fbq('track', eventName, customData || {}, { eventID: eventId });
+
+    try {
+      fetch('/api/capi', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        keepalive: true,
+        body: JSON.stringify({
+          event_name: eventName,
+          event_id: eventId,
+          event_source_url: location.href,
+          fbp: getCookie('_fbp'),
+          fbc: getCookie('_fbc'),
+          custom_data: customData || {}
+        })
+      });
+    } catch (err) {}
+  }
+
+  metaTrack('PageView');
+
+  document.getElementById('ctaBtn').addEventListener('click', function () {
+    metaTrack('Lead', {
+      content_name: 'NOICE Premium via YUP',
+      content_category: 'promo_cta'
+    });
   });
 })();
 </script>
