@@ -68,21 +68,6 @@
     .modal{border-radius:var(--radius-modal);border:1px solid var(--line);}
   }
 
-  .modal__close{
-    position:absolute;
-    top:14px;right:14px;
-    z-index:5;
-    width:40px;height:40px;
-    display:grid;place-items:center;
-    border:0;border-radius:50%;
-    background:rgba(0,0,0,.45);
-    backdrop-filter:blur(6px);
-    cursor:pointer;
-    transition:background .18s ease,transform .18s ease;
-  }
-  .modal__close:hover{background:rgba(255,255,255,.14);transform:scale(1.05);}
-  .modal__close svg{width:18px;height:18px;}
-
   /* ---------- hero ---------- */
   .hero{
     position:relative;
@@ -366,12 +351,6 @@
 <div class="overlay">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="promoTitle">
 
-    <button class="modal__close" type="button" aria-label="Tutup">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round">
-        <path d="M6 6l12 12M18 6L6 18"/>
-      </svg>
-    </button>
-
     <!-- ================= HERO ================= -->
     <header class="hero">
       <div class="hero__logos">
@@ -458,12 +437,12 @@
 
           <div class="deal__price">
             <span class="deal__now">Rp1.000</span>
-            <span class="deal__was">Rp29.000</span>
+            <span class="deal__was">Rp30.000</span>
           </div>
 
           <div class="code">
-            <span class="code__value" id="promoCode">NOICEPREMIUMYUP</span>
-            <button class="code__btn" type="button" id="copyBtn" data-code="NOICEPREMIUMYUP">
+            <span class="code__value" id="promoCode">YUPNOICE</span>
+            <button class="code__btn" type="button" id="copyBtn" data-code="YUPNOICE">
               <span class="code__btn-label">Copy</span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -490,14 +469,14 @@
               <li>Unduh aplikasi YUP melalui Google Play Store atau App Store.</li>
               <li>Lakukan pendaftaran dan pastikan kamu memasukkan kode referral berikut di kolom “Kode Promo”:
                 <ul>
-                  <li><code>NOICEPREMIUMYUP</code> untuk paket NOICE Premium.</li>
+                  <li><code>YUPNOICE</code> untuk paket NOICE Premium.</li>
                 </ul>
               </li>
               <li>Selesaikan proses registrasi hingga akun YUP kamu disetujui (approved).</li>
-              <li>Setelah aktif, dapatkan voucher potongan dengan total nilai hingga <b>Rp28.000</b> (sesuai paket pilihanmu).</li>
+              <li>Setelah aktif, dapatkan voucher potongan dengan total nilai hingga <b>Rp29.000</b> (sesuai paket pilihanmu).</li>
               <li>Buka aplikasi NOICE, pilih paket NOICE Premium, lalu pilih metode pembayaran QR.</li>
               <li>Scan QRIS pakai Aplikasi YUP.</li>
-              <li>Setelah itu, gunakan voucher potongan harga senilai sampai dengan <b>Rp28.000</b> dan bayar cuma <b>Rp1.000</b>.</li>
+              <li>Setelah itu, gunakan voucher potongan harga senilai sampai dengan <b>Rp29.000</b> dan bayar cuma <b>Rp1.000</b>.</li>
             </ol>
           </div>
 
@@ -505,10 +484,10 @@
             <h3>Syarat &amp; Ketentuan</h3>
             <ul class="terms">
               <li>Melakukan registrasi akun YUP.</li>
-              <li>Masukan kode referral <b>NOICEPREMIUMYUP</b>.</li>
+              <li>Masukan kode referral <b>YUPNOICE</b>.</li>
               <li>Selesaikan registrasi sampai selesai.</li>
-              <li>Nikmati voucher potongan sampai <b>Rp28.000</b>.</li>
-              <li>Voucher total hingga <b>Rp28.000</b>.</li>
+              <li>Nikmati voucher potongan sampai <b>Rp29.000</b>.</li>
+              <li>Voucher total hingga <b>Rp29.000</b>.</li>
               <li>Promo berlaku khusus untuk pengguna baru YUP.</li>
               <li>Promo hanya berlaku satu kali per akun NOICE dan akun YUP.</li>
             </ul>
@@ -516,7 +495,7 @@
         </section>
 
         <div class="cta-wrap">
-          <a class="cta" href="#" role="button">
+          <a class="cta" href="https://ops.yupindonesia.com/cdws/YUPNOICE" role="button">
             Daftar &amp; Klaim Promo di YUP
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"
                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
