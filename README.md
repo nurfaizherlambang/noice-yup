@@ -4,15 +4,12 @@ Promo page for the NOICE × YUP partnership, offering **NOICE Premium (30 hari) 
 Rp1.000** (from Rp30.000) to new YUP users with the referral code `YUPNOICE`. The
 CTA links to `https://ops.yupindonesia.com/cdws/YUPNOICE`.
 
-Static page plus one small serverless function for server-side conversion tracking.
-No build step, no npm dependencies.
+Static single-page site. No build step, no dependencies.
 
 ## Structure
 
 ```
 index.html            # the entire page (markup + inline CSS + inline JS)
-api/
-  capi.js              # Vercel serverless function: forwards events to Meta CAPI
 assets/
   noice-logo.png      # NOICE lockup, 2500x1100
   yup-logo.png        # YUP app icon, 480x480
@@ -26,50 +23,21 @@ Open `index.html` directly in a browser, or serve it:
 npx serve .
 ```
 
-`npx serve` only serves static files — `/api/capi` (see below) won't respond
-locally under it, so during local preview the Pixel still fires but the CAPI
-call fails silently (it's fire-and-forget with no visible error). To exercise
-the full path locally, use the Vercel CLI instead: `npx vercel dev`.
-
 ## Deploying to Vercel
 
-The site is static HTML at the repo root plus one serverless function, so no
-build configuration is needed. In Vercel: **Add New → Project → import this
-repo**, leave the framework preset as **Other**, and deploy. There is no build
-command and no output directory to set — `api/capi.js` is picked up automatically.
+The site is plain static HTML at the repo root, so no configuration is needed.
+In Vercel: **Add New → Project → import this repo**, leave the framework preset as
+**Other**, and deploy. There is no build command and no output directory to set.
 
-## Meta Pixel & Conversions API
+## Meta Pixel
 
-Pixel ID `1020300154103051` is wired into `index.html` and fires two standard
-events:
+Pixel ID `1020300154103051` is wired into `index.html` (browser-side only, no
+Conversions API) and fires two standard events:
 
-| Event      | When                          |
-|------------|-------------------------------|
-| `PageView` | on page load                  |
-| `Lead`     | on click of the main CTA button |
-
-Both events are also sent server-side to the Conversions API from
-[`api/capi.js`](api/capi.js), using the **same `event_id`** the browser Pixel
-used for that event — Meta dedupes the pair into a single event rather than
-counting it twice. This is why `event_id` generation lives in `index.html`
-(shared between the `fbq(...)` call and the `fetch('/api/capi', ...)` call),
-not in the serverless function.
-
-**Server-side sending requires an access token you generate**, which isn't
-something that can be hardcoded into the repo. Without it, the Pixel alone
-still tracks normally; CAPI is additive, not required for the Pixel to work.
-
-To turn CAPI on, in **Vercel → Project Settings → Environment Variables**, add:
-
-| Variable                     | Required | Purpose                                                                 |
-|-------------------------------|----------|--------------------------------------------------------------------------|
-| `META_CAPI_ACCESS_TOKEN`      | yes      | System User access token. Generate in Meta Events Manager → this pixel → Settings → **Conversions API** → **Generate access token**. |
-| `META_PIXEL_ID`                | no       | Overrides the default `1020300154103051` if you ever repoint the page.  |
-| `META_CAPI_TEST_EVENT_CODE`    | no       | From Events Manager → **Test Events**, while verifying the setup. Remove once confirmed. |
-
-Redeploy after adding the token. Verify events are landing under Events Manager
-→ **Test Events** (with the test code set) or the main **Overview** tab, checking
-that Pixel and server events for the same action show as one deduped event.
+| Event      | When                             |
+|------------|-----------------------------------|
+| `PageView` | on page load                     |
+| `Lead`     | on click of the main CTA button  |
 
 ## Layout notes
 
