@@ -144,20 +144,18 @@ fbq('init', '1020300154103051');
 
   /* fanned content cards — real NOICE catalog artwork */
   .hero__cards{
-    display:flex;justify-content:center;align-items:center;
-    gap:clamp(8px,2.4vw,18px);
+    display:grid;
+    grid-template-columns:repeat(3,clamp(72px,20vw,140px));
+    gap:clamp(10px,2.6vw,18px);
+    justify-content:center;
     margin-top:clamp(26px,7vw,44px);
-    /* rotating a 170px card by 8deg grows its box ~11px per side; with translateY(12px)
-       the outer cards reach ~23px below their upright bottom. .hero is overflow:hidden,
-       so reserve at least that much or the card bottoms get clipped. */
-    padding-bottom:clamp(24px,5.5vw,34px);
+    padding-bottom:clamp(12px,3vw,20px);
   }
   .ccard{
     position:relative;
-    flex:0 0 auto;
     min-width:0;
-    width:clamp(96px,26vw,170px);
-    aspect-ratio:3/4;
+    width:100%;
+    aspect-ratio:1/1;
     border-radius:12px;
     border:1px solid rgba(255,255,255,.16);
     box-shadow:0 18px 44px rgba(0,0,0,.6);
@@ -166,11 +164,8 @@ fbq('init', '1020300154103051');
     transition:transform .3s ease;
   }
   .ccard img{width:100%;height:100%;object-fit:cover;object-position:center;}
-  .ccard:nth-child(1){transform:rotate(-8deg) translateY(12px);}
-  .ccard:nth-child(2){transform:translateY(-8px);z-index:2;}
-  .ccard:nth-child(3){transform:rotate(8deg) translateY(12px);}
   @media (min-width:900px){
-    .ccard:hover{transform:rotate(0deg) translateY(-8px);z-index:3;}
+    .ccard:hover{transform:translateY(-6px);z-index:2;}
   }
 
   /* ---------- body ---------- */
@@ -418,15 +413,27 @@ fbq('init', '1020300154103051');
       <div class="hero__cards">
         <div class="ccard">
           <img src="https://images.noiceid.cc/catalog/content-1660037096035"
-               alt="Podcast eksklusif di NOICE" decoding="async">
+               alt="Konten eksklusif di NOICE" decoding="async">
         </div>
         <div class="ccard">
-          <img src="https://images.noiceid.cc/catalog/compressed/content-1657618648731"
-               alt="Audio series di NOICE" decoding="async">
+          <img src="https://images-v2.noiceid.cc/catalog/300x300/content-1777981706776.webp"
+               alt="Konten eksklusif di NOICE" decoding="async">
         </div>
         <div class="ccard">
-          <img src="https://images.noiceid.cc/catalog/content-1614529848190.jpg"
-               alt="Radio di NOICE" decoding="async">
+          <img src="https://images-v2.noiceid.cc/catalog/300x300/content-1738835884516.webp"
+               alt="Konten eksklusif di NOICE" decoding="async">
+        </div>
+        <div class="ccard">
+          <img src="https://images-v2.noiceid.cc/catalog/300x300/content-1748577229058.webp"
+               alt="Konten eksklusif di NOICE" decoding="async">
+        </div>
+        <div class="ccard">
+          <img src="https://images-v2.noiceid.cc/catalog/300x300/content-1784295529622.webp"
+               alt="Konten eksklusif di NOICE" decoding="async">
+        </div>
+        <div class="ccard">
+          <img src="https://images-v2.noiceid.cc/catalog/300x300/content-1762167025419.webp"
+               alt="Konten eksklusif di NOICE" decoding="async">
         </div>
       </div>
     </header>
