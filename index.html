@@ -122,7 +122,22 @@ fbq('init', '1020300154103051');
     flex:none;
     margin:-12px 0;
   }
-  .brand--yup .brand__img--icon{height:24px;width:24px;border-radius:6px;}
+  /* Logo New Yup_white.png is 3815x2481, but the visible Y-mark occupies only
+     the middle ~53% of width and ~34% of height (measured from the alpha
+     channel: left pad 24.3%, right pad 22.4%, top pad 33.2%, bottom pad
+     32.9% of the canvas). Unlike the NOICE logo, the horizontal padding here
+     is too large to leave in place — it would read as a big dead gap before
+     the "Yup" wordmark — so this one trims all four sides, not just top/bottom.
+     max-width:none + flex:none stop the global `img{max-width:100%}` rule
+     from fighting the negative margins and squashing the mark (the same
+     failure mode the NOICE logo hit before it got max-width:none). */
+  .brand--yup .brand__img--icon{
+    height:72px;
+    width:auto;
+    max-width:none;
+    flex:none;
+    margin:-24px -25px -24px -27px;
+  }
 
   .logo-noice svg{width:30px;height:26px;flex:none;}
   .logo-noice .wordmark{
@@ -389,9 +404,9 @@ fbq('init', '1020300154103051');
 
         <span class="hero__divider"></span>
 
-        <!-- Drop the official file at assets/yup-logo.png and it replaces the fallback automatically -->
+        <!-- Drop the official file at assets/Logo New Yup_white.png and it replaces the fallback automatically -->
         <span class="brand brand--yup">
-          <img class="brand__img brand__img--icon" src="assets/yup-logo.png" alt=""
+          <img class="brand__img brand__img--icon" src="assets/Logo New Yup_white.png" alt="Yup"
                onerror="this.closest('.brand').classList.add('no-img')">
           <span class="brand__fallback logo-yup">
             <svg viewBox="0 0 48 48" aria-hidden="true">
@@ -408,8 +423,8 @@ fbq('init', '1020300154103051');
                 <path d="M13.2 11.5 L22.6 27.5"/>
               </g>
             </svg>
+            <span class="wordmark">Yup</span>
           </span>
-          <span class="wordmark">Yup</span>
         </span>
       </div>
 
